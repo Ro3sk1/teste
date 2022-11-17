@@ -71,6 +71,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
 
     function onCreateSessionDescriptionError(error) {
         Terminate();
+        alert("Failed to create session description: " + error.toString());
     }
 
     function onCreateOfferSuccess(desc) {
@@ -115,6 +116,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
     function onConnStateChange(event) {
         if (pc.connectionState === "failed") {
             Terminate();
+            alert("Connection failed; playback stopped");
         }
     }
 
@@ -130,6 +132,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
         }
         catch (error) {
             Terminate();
+            alert("Error creating websocket: " + error);
         }
 
         ws.onmessage = function(evt) {
@@ -143,6 +146,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
 
                 if (strArr.length == 1) {
                     Terminate();
+                    alert(response);
                 }
                 else {
                     var servers = null;
@@ -180,6 +184,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
                         setTimeout(function () { that.Play(); }, 500);
                     }
                     else
+                        alert(response);
                 }
                 else {
                     var serverSDP = JSON.parse(strArr[0]);
@@ -200,6 +205,7 @@ function UnrealWebRTCPlayer(videoID, alias, sid, ipAddress, port, useSecureWebso
         ws.onerror = function(evt) {
             if (!connOK) {
                 Terminate();
+                alert("Error connecting to Unreal Media Server");
             }
         }
     }
